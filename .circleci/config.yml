@@ -13,6 +13,6 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "lupho-web-ue1-dev-task-web-portal"
+          family: "lupho-web-ue1-dev-task-web-portal" # this is ok
           cluster-name: "lupho-web-ue1-dev-ecs"
-          container-image-name-updates: "container=lupho-web-ue1-dev-ecs,tag=${CIRCLE_SHA1}"
+          container-image-name-updates: "container=web-portal,tag=${CIRCLE_SHA1}"
