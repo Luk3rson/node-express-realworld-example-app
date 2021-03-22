@@ -40,6 +40,7 @@ workflows:
             - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
           family: "lupho-web-ue1-dev-task-web-portal" # this is ok
           service-name: "web-portal"
-          ##codedeploy-application-name:
+          codedeploy-application-name: "lupho-web-ue1-dev-cd-web-portal-service"
+          codedeploy-deployment-group-name: "lupho-web-ue1-dev-cd-web-portal-group"
           cluster-name: "lupho-web-ue1-dev-ecs"
           container-image-name-updates: "container=web-portal,tag=${CIRCLE_SHA1}"
