@@ -1,20 +1,18 @@
-version: 2
+version: 2.1
 
-jobs:
-  build:
-    docker:
-      - image: circleci/node:8.5.0
-      - image: circleci/mongo:3.5.10
-    steps:
-      - checkout
-      - run:
-          name: Start app and test
-          command: |
-            yarn
-            yarn run start & sleep 5
-            curl http://localhost:3000/api/tags
-            yarn run test
-      - run:
-          name: Trigger integration tests
-          command: curl -X POST "https://circleci.com/api/v1.1/project/github/anishkny/realworld-e2e-test?circle-token=$CIRCLE_CI_TOKEN"
+orbs:
+  aws-ecr: circleci/aws-ecr@6.15.3
+  aws-ecs: circleci/aws-ecs@2.1.0
 
+workflows:
+  build-and-deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          repo: "${AWS_RESOURCE_NAME_PREFIX}"
+          tag: "${CIRCLE_SHA1}"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
+          family: "web-portal"
+          cluster-name: "lupho-web-ue1-dev-ecs"
+          container-image-name-updates: "container=lupho-web-ue1-dev-ecs,tag=${CIRCLE_SHA1}"
