@@ -42,5 +42,7 @@ workflows:
           service-name: "web-portal"
           codedeploy-application-name: "lupho-web-ue1-dev-cd-web-portal-service"
           codedeploy-deployment-group-name: "lupho-web-ue1-dev-cd-web-portal-group"
+          codedeploy-load-balanced-container-name: "web-portal"
+          codedeploy-load-balanced-container-port: 8080
           cluster-name: "lupho-web-ue1-dev-ecs"
           container-image-name-updates: "container=web-portal,tag=${CIRCLE_SHA1}"
