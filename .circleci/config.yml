@@ -38,6 +38,8 @@ workflows:
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
-          family: "web-portal" # this is ok
+          family: "lupho-web-ue1-dev-task-web-portal" # this is ok
+          service-name: "web-portal"
+          ##codedeploy-application-name:
           cluster-name: "lupho-web-ue1-dev-ecs"
           container-image-name-updates: "container=web-portal,tag=${CIRCLE_SHA1}"
